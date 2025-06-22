@@ -2,6 +2,14 @@
 
 本项目旨在学习 pinia 的核心逻辑，不考虑插件、SSR、开发环境的差异等，也不考虑多个 pinia 实例的情况。
 
+## 使用 pinia 的理由
+
+- 支持 SSR
+- 热更新时 pinia 的数据不会丢失（可能是保存在 devtools 中，还没研究）
+- 支持 vue devtool
+- 有完善的 ts 类型提示
+- 支持一些钩子函数，可以在 action 触发之前，完成之后或者出错时调用我们的回调函数
+
 ## pinia 实例
 
 createPinia 创建了一个 pinia 实例，它同时也是一个 vue 插件。当 app.use(pinia) 时会调用 pinia 对象的 install 方法安装插件，在其中 pinia 可以获取到 app 实例放在自己身上，同时通过 provide 为所有组件提供 pinia。
@@ -22,3 +30,7 @@ store 到底是什么？可以把它看做存放 state、getters、actions 的�
 - $reset，对于 option store，$reset 的作用是生成一个新的 state 对象合并到现有的 state 对象（浅层合并），从而实现重置 state 的作用。setup store 则需要自己实现该方法。
 - $onAction，当我们自己定义的 action 执行之前会先执行传入 $onAction 的回调，返回取消函数
 - $dispose，销毁 store，但是 store 在 pinia 上的数据不会自动删除，这样下次创建 store 时可以复用
+
+### store 是一个 reactive 包装的对象
+
+这意味着访问 store 的 ref 不需要 .value，会自动解包
