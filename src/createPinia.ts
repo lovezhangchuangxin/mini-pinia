@@ -1,12 +1,4 @@
-import {
-  App,
-  effectScope,
-  EffectScope,
-  markRaw,
-  ObjectPlugin,
-  provide,
-  Ref,
-} from "vue";
+import { App, effectScope, EffectScope, markRaw, ObjectPlugin } from "vue";
 import { StateTree } from "./types";
 import { Store } from "./store";
 
@@ -35,10 +27,10 @@ export function createPinia(): Pinia {
   const pinia: Pinia = markRaw({
     install(app) {
       pinia.app = app;
-      provide(piniaSymbol, pinia);
+      app.provide(piniaSymbol, pinia);
     },
     // @ts-ignore
-    app,
+    app: null,
     stores: {},
     states: {},
     scope: effectScope(true),

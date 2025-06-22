@@ -1,6 +1,5 @@
 import {
   effectScope,
-  EffectScope,
   inject,
   isReactive,
   isRef,
@@ -66,7 +65,8 @@ function mergeReactiveObjects<
   if (target instanceof Map && partialState instanceof Map) {
     partialState.forEach((val, key) => target.set(key, val));
     return;
-  } else if (target instanceof Set && partialState instanceof Set) {
+  }
+  if (target instanceof Set && partialState instanceof Set) {
     partialState.forEach((val) => target.add(val));
     return;
   }
@@ -170,7 +170,7 @@ function createSetupStore<
     scope.stop();
     subscriptions = [];
     actionSubscriptions = [];
-    delete pinia.states[id];
+    delete pinia.stores[id];
   };
 
   // 包装用户的 action，这里可以做一些处理，比如执行真正的 action 之间触发 onActionSubscritions 订阅
